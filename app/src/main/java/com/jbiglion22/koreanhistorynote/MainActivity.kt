@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
 
+val LOGTAG = "KOREAHISTORYNOTE"
+
 val titlenameList = arrayListOf(
     TitleName(1, "1. 선사 문화와 여러나라의 성장",
-        "* 구석기: 이동생활 → 동굴, 땐석기, 주먹도끼\n" +
+        "* 구석기: 이동생활 → [[동굴]], [[땐석기]], [[주먹도끼]]\n" +
              "* 신석기: 농경 → 움집, 간석기, 빗살무늬토기, 가락바퀴\n" +
              "* 청동기: 계급 → 고인돌, 비파형동검, 반달칼, 민무늬토기",
       "선사시대는 구석기, 신석기, 청동기 시대가 중요합니다. \n"+

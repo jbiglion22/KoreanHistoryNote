@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.PackageManagerCompat.LOG_TAG
 import com.jbiglion22.koreanhistorynote.databinding.ActivityContentBinding
 
 
 class ContentActivity : AppCompatActivity() {
+    val LOG_HEAD ="ContentActivity"
+
     private lateinit var binding: ActivityContentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +28,24 @@ class ContentActivity : AppCompatActivity() {
         var actionBar = supportActionBar
         actionBar?.title = titlename.name
         binding.tvTitlename.text = ""
+
+
+        /* 내용을 자른다 */
+        var loc: Int =0
+        var loc2: Int =0
+        var sstr:String = ""
+        Log.d(LOGTAG,"[${LOG_HEAD}] sub=${sstr}")
+
+        while(titlename.cont.indexOf("[[",loc)>0 ) {
+            loc = titlename.cont.indexOf("[[",loc)
+            loc = loc+2
+            loc2 = titlename.cont.indexOf("]]",loc)
+            sstr = titlename.cont.substring(loc,loc2)
+
+            Log.d(LOGTAG,"[${LOG_HEAD}] sub=${sstr}")
+        }
+
+
 
         if (titlename.cont.length>0) {
             var span = SpannableStringBuilder(titlename.cont)

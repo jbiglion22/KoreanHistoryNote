@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
 
-// 노트 수정함(2022.6.7)
+// 콤 수정함(2022.6.7)
 
 val LOGTAG = "KOREAHISTORYNOTE"
 

@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
 
+// 현지PC에서 수정함(2022.6.6)
+
 val LOGTAG = "KOREAHISTORYNOTE"
 
 class MainActivity : AppCompatActivity() {

@@ -32,6 +32,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
+                android:background="#D7FF97"
                 android:text="tv_content"
                 android:textSize="16sp" />
 

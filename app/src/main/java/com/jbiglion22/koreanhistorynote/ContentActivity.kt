@@ -6,6 +6,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.PackageManagerCompat.LOG_TAG
@@ -21,6 +22,8 @@ class ContentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityContentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+
 
         var curPos:Int = intent.getIntExtra("curPos", 0)
         val titlename: TitleName = titlenameList.get(curPos)
@@ -64,5 +67,16 @@ class ContentActivity : AppCompatActivity() {
             binding.tvTitleexplain.visibility = View.INVISIBLE
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            // 액션바 뒤로가기 버튼 클릭 -> 닫기
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

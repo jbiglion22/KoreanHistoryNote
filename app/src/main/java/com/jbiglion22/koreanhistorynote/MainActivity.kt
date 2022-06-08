@@ -13,8 +13,6 @@ import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
 
-// 콤 수정함(2022.6.7)
-
 val LOGTAG = "KOREAHISTORYNOTE"
 
 class MainActivity : AppCompatActivity() {
@@ -91,6 +89,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        Toast.makeText(this, "뒤로가기",Toast.LENGTH_LONG).show()
+        super.onBackPressed()
     }
 
 

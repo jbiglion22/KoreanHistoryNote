@@ -1,7 +1,10 @@
 package com.jbiglion22.koreanhistorynote
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+
 
 class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,9 +15,9 @@ class IntroActivity : AppCompatActivity() {
         var actionBar = supportActionBar
         actionBar?.hide()
 
-        Thread {
-            Thread.sleep(1000)
+        Handler(Looper.getMainLooper()).postDelayed({
             finish()
-        }.start()
+        }, 3000)
+
     }
 }

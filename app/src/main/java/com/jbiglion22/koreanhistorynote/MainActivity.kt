@@ -1,5 +1,6 @@
 package com.jbiglion22.koreanhistorynote
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -7,16 +8,22 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.nativead.NativeAd
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
 
 val LOGTAG = "KOREAHISTORYNOTE"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private var adLoader: AdLoader? = null
 
     var mInterstitialAd : InterstitialAd? = null
 
@@ -93,7 +100,44 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         Toast.makeText(this, "뒤로가기",Toast.LENGTH_LONG).show()
-        super.onBackPressed()
+
+//        super.onBackPressed()
+
+
+        // 종료 다이얼로그 출력 ----------------------->>>>
+        var builder= AlertDialog.Builder(this)
+        builder.setTitle("종료하시겠습니까?")
+        builder.setIcon(R.mipmap.ic_launcher_khn_round)
+
+        var v1 = layoutInflater.inflate(R.layout.end_dialog, null)
+        builder.setView(v1)
+        var listener = object:DialogInterface.OnClickListener{
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                var alert = p0 as AlertDialog
+
+                finish()
+            }
+        }
+        builder.setPositiveButton("확인", listener)
+        builder.setNegativeButton("취소", null)
+        builder.show()
+        // 종료 다이얼로그 출력 -----------------------<<<<
+
+        /// 광고 테스트 ----->>>
+
+        createAd()
+        adLoader?.loadAd(AdRequest.Builder().build())
+
+        ////<<<<
+
+
+    }
+    fun createAd() {
+        MobileAds.initialize(this)
+        adLoader = AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
+            .build()
+
+        adLoader!!.loadAd(AdRequest.Builder().build())
     }
 
 

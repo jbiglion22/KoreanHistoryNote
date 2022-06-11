@@ -16,6 +16,7 @@ import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
 
 val LOGTAG = "KOREAHISTORYNOTE"
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-       setBannerAds()
+        setBannerAds()
         /*
         binding.btnAdd.setOnClickListener {
 
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         builder.show()
         // 종료 다이얼로그 출력 -----------------------<<<<
 
-        /// 광고 테스트 ----->>>
+        /// 종료 네이티브 광고 ----->>>
 
         createAd()
         adLoader?.loadAd(AdRequest.Builder().build())
@@ -134,10 +135,22 @@ class MainActivity : AppCompatActivity() {
     }
     fun createAd() {
         MobileAds.initialize(this)
+        // 테스트용
         adLoader = AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
-            .build()
+        // 진짜용
+//        adLoader = AdLoader.Builder(this, "ca-app-pub-3401120384384866/2828616736")
+            .forNativeAd { ad : NativeAd ->
 
-        adLoader!!.loadAd(AdRequest.Builder().build())
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+
+                }
+            })
+            .withNativeAdOptions(
+                NativeAdOptions.Builder()
+                .build())
+            .build()
     }
 
 

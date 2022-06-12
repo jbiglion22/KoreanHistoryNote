@@ -1,12 +1,25 @@
 package com.jbiglion22.koreanhistorynote
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
+import android.util.Log
+import android.view.View
+import android.widget.Toast
+
 val titlenameList = arrayListOf(
 
     // --------------- 1 ------------------//
     TitleName(1,
         "1. 선사 문화와 여러나라의 성장",
     """
-* 구석기: 이동생활 → [[동굴]], [[땐석기]], [[주먹도끼]]
+* 구석기: 이동생활 → [[동굴||1]], [[땐석기||1]], [[주먹도끼||1]]
 * 신석기: 농경 → 움집, 간석기, 빗살무늬토기, 가락바퀴
 * 청동기: 계급 → 고인돌, 비파형동검, 반달칼, 민무늬토기
         """.trimIndent(),
@@ -355,6 +368,106 @@ val titlenameList = arrayListOf(
         ""),
 )
 
+class ContentItem {
+    var strText=""
+    var intStyle=0
+    var intStart=0
+    var intEnd=0
+
+    constructor(text:String) {
+        strText = text
+        intStyle = 0
+    }
+    constructor(text:String, sty:Int, start:Int, end:Int) {
+        strText = text
+        intStyle = sty
+        intStart = start
+        intEnd = end
+    }
+}
 
 class ContentData {
+    val LOG_HEAD ="ContentData"
+    var fulltext = ""
+    var list = mutableListOf<ContentItem>()
+    lateinit var span : SpannableStringBuilder
+
+    constructor(conAct : Context, fulltext: String) {
+
+        var l: Int =0
+        var loc0: Int =0
+        var loc1: Int =0
+        var sstr = ""
+
+
+
+        while(fulltext.indexOf("[[",loc0)>0 ) {
+            loc1=fulltext.indexOf("[[",loc0)
+            list.add(l, ContentItem(fulltext.substring(loc0,loc1)))
+            Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
+            l++
+
+            loc0 = loc1+2
+            loc1 = fulltext.indexOf("]]",loc0)
+            sstr = fulltext.substring(loc0,loc1)
+            if (sstr.indexOf("||",0)>0) {
+                var str_arr = sstr.split("||")
+                list.add(l, ContentItem(str_arr[0], str_arr[1].toInt(), cntNowLength(), cntNowLength()+str_arr[0].length))
+            } else {
+                list.add(l, ContentItem(sstr))
+            }
+            Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
+            l++
+
+            loc0=loc1+2
+        }
+        loc1=fulltext.length
+        list.add(l,ContentItem(fulltext.substring(loc0,loc1)))
+        Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
+
+
+        Log.d(LOGTAG,"[${LOG_HEAD}] list.size=${list.size}")
+
+
+        var fullString=""
+        for (i in list.indices) {
+            fullString = fullString+list[i].strText
+        }
+        span = SpannableStringBuilder(fullString)
+        for (i in list.indices) {
+            if (list[i].intStyle==1) {
+
+                //클릭
+                val ccs= object: ClickableSpan(){
+                    override fun onClick(view: View) {
+                        Toast.makeText(conAct, "내용: ${list[i].strText}", Toast.LENGTH_LONG).show()
+                    }
+                }
+                span.setSpan(ccs, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 볼드
+                val boldSpan = StyleSpan(Typeface.BOLD)
+                span.setSpan(boldSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 크기
+                val sizeBigSpan = RelativeSizeSpan(1.0f)
+                span.setSpan(sizeBigSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 색상
+                val colorBlueSpan = ForegroundColorSpan(Color.RED)
+                span.setSpan(colorBlueSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+        }
+
+    }
+
+    fun cntNowLength(): Int{
+        var k=0
+        for (i in list.indices) {
+            k=k+list[i].strText.length
+        }
+        return k
+    }
+
 }

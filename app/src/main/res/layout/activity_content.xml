@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ContentActivity">
 
     <ScrollView
@@ -31,6 +32,7 @@
                 android:gravity="center"
                 android:text="tv_titlename"
                 android:textAlignment="center"
+                android:textColor="#3F51B5"
                 android:textSize="20sp" />
 
             <TextView
@@ -40,8 +42,9 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
-                android:background="#D7FF97"
+                android:background="#FFFFFF"
                 android:text="tv_content"
+                android:textColor="#000000"
                 android:textSize="16sp" />
 
             <TextView
@@ -51,6 +54,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="40dp"
                 android:text="해설"
+                android:textColor="#000000"
                 android:textSize="16sp" />
 
             <TextView
@@ -63,6 +67,7 @@
                 android:background="@drawable/xml_border"
                 android:padding="8sp"
                 android:text="tv_explain"
+                android:textColor="#000000"
                 android:textSize="16sp" />
 
 
@@ -72,17 +77,17 @@
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="#FFFFFF"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"></com.google.android.gms.ads.AdView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

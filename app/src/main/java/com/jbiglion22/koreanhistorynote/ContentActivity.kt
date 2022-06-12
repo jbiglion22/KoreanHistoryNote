@@ -56,7 +56,7 @@ class ContentActivity : AppCompatActivity() {
 
         if (titlename.cont.length>0) {
             var span = SpannableStringBuilder(titlename.cont)
-            span.setSpan(ForegroundColorSpan(Color.RED), 4, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//            span.setSpan(ForegroundColorSpan(Color.RED), 4, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.tvContent.text = span
         } else {
             binding.tvContent.text =""

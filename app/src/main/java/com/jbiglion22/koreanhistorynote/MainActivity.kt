@@ -1,25 +1,29 @@
 package com.jbiglion22.koreanhistorynote
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.ads.nativetemplates.NativeTemplateStyle
-import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.*
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
+//import androidx.ui.material.AlertDialog
 
 val LOGTAG = "KOREAHISTORYNOTE"
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -84,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
 
         return super.onCreateOptionsMenu(menu)
@@ -110,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("종료하시겠습니까?")
         builder.setIcon(R.mipmap.ic_launcher_khn_round)
 
-        var v1 = layoutInflater.inflate(R.layout.end_dialog, null)
+        val v1 = layoutInflater.inflate(R.layout.end_dialog, null)
         builder.setView(v1)
         var listener = object:DialogInterface.OnClickListener{
             override fun onClick(p0: DialogInterface?, p1: Int) {
@@ -119,9 +123,34 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
-        builder.setPositiveButton("확인", listener)
-        builder.setNegativeButton("취소", null)
-        builder.show()
+
+
+/*
+        builder.setPositiveButton("", listener)
+            .setPositiveButtonIcon(getDrawable(R.drawable.btn_close))
+
+        builder.setNegativeButton("", null)
+            .setNegativeButtonIcon(getDrawable(R.drawable.intro_title))
+ //       builder.show()
+
+ */
+        val dia = builder.create()
+        dia.show()
+
+        //       val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        //       val view=inflater.inflate(R.layout.end_dialog, null)
+        var btnClose = v1.findViewById<Button>(R.id.btn_close)
+        btnClose.setOnClickListener{
+//            Toast.makeText(this, "close", Toast.LENGTH_LONG).show()
+            dia.dismiss()
+            finish()
+        }
+//        v1.btnCancel
+        var btnClancel = v1.findViewById<Button>(R.id.btn_cancel)
+        btnClancel.setOnClickListener{
+            dia.dismiss()
+        }
+
         // 종료 다이얼로그 출력 -----------------------<<<<
 
         /// 종료 네이티브 광고 ----->>>
@@ -133,6 +162,19 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    /*
+    @Composable
+    fun presentDialog() {
+        androidx.ui.material.AlertDialog(
+            onCloseRequest = {},
+            title = {Text("1111")},
+            text = {},
+            confirmButton = {},
+        )
+    }
+*/
+
     fun createAd() {
         MobileAds.initialize(this)
         // 테스트용
@@ -190,4 +232,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 }

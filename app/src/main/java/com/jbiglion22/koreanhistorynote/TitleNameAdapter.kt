@@ -4,6 +4,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
@@ -13,6 +15,11 @@ class TitleNameAdapter(val titlenameList: ArrayList<TitleName>) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TitleNameAdapter.CustomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_titlename, parent, false)
+        val btnImage = view.findViewById<ImageButton>(R.id.imageButton)
+        btnImage.setOnClickListener {
+           Toast.makeText(parent.context, "test", Toast.LENGTH_LONG).show()
+        }
+
         return CustomViewHolder(view).apply {
             itemView.setOnClickListener {
                 val curPos : Int = adapterPosition

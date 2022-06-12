@@ -6,18 +6,18 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 
 
-class IntroActivity : AppCompatActivity() {
+class EntraneActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
  //       requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_intro)
+        setContentView(R.layout.activity_entrance)
 
         var actionBar = supportActionBar
         actionBar?.hide()
 
         Handler(Looper.getMainLooper()).postDelayed({
             finish()
-        }, 3000)
+        }, 2000)
 
     }
 }

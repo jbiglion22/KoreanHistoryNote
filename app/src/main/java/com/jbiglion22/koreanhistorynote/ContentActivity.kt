@@ -34,7 +34,7 @@ class ContentActivity : AppCompatActivity() {
 
         var actionBar = supportActionBar
         actionBar?.title = titlename.name
-        binding.tvTitlename.text = ""
+
 
 
         /* 내용을 자른다 */
@@ -51,7 +51,6 @@ class ContentActivity : AppCompatActivity() {
 
             Log.d(LOGTAG,"[${LOG_HEAD}] sub=${sstr}")
         }
-
 
 
         if (titlename.cont.length>0) {

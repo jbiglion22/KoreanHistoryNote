@@ -13,9 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KoreanHistoryNote"
         tools:targetApi="31">
-
         <activity
-            android:name=".IntroActivity"
+            android:name=".IntroduceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EntraneActivity"
             android:exported="false" />
         <activity
             android:name=".ContentActivity"
@@ -32,7 +34,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3401120384384866~9706772894"/>
+            android:value="ca-app-pub-3401120384384866~9706772894" />
     </application>
 
 </manifest>

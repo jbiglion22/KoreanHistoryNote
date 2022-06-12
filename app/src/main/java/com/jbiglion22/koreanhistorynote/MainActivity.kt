@@ -1,12 +1,10 @@
 package com.jbiglion22.koreanhistorynote
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -20,6 +18,8 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.jbiglion22.koreanhistorynote.databinding.ActivityMainBinding
+import kotlin.system.exitProcess
+
 //import androidx.ui.material.AlertDialog
 
 val LOGTAG = "KOREAHISTORYNOTE"
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
         } else {
             // 첫 실행일 경우만 실행
-            val intent = Intent(this, IntroActivity::class.java)
+            val intent = Intent(this, EntraneActivity::class.java)
             intent.putExtra("curPos", 1)
             startActivity(intent)
         }
@@ -96,8 +96,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.Item1 -> {
-
+            R.id.menu_item_introduce -> {
+                val intent = Intent(this, IntroduceActivity::class.java)
+                intent.putExtra("curPos", 1)
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -114,13 +116,14 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("종료하시겠습니까?")
         builder.setIcon(R.mipmap.ic_launcher_khn_round)
 
-        val v1 = layoutInflater.inflate(R.layout.end_dialog, null)
+        val v1 = layoutInflater.inflate(R.layout.dialog_leave, null)
         builder.setView(v1)
         var listener = object:DialogInterface.OnClickListener{
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 var alert = p0 as AlertDialog
-
-                finish()
+                finishAffinity()
+                System.runFinalization()
+                exitProcess(0)
             }
         }
 
@@ -143,7 +146,9 @@ class MainActivity : AppCompatActivity() {
         btnClose.setOnClickListener{
 //            Toast.makeText(this, "close", Toast.LENGTH_LONG).show()
             dia.dismiss()
-            finish()
+            finishAffinity()
+            System.runFinalization()
+            exitProcess(0)
         }
 //        v1.btnCancel
         var btnClancel = v1.findViewById<Button>(R.id.btn_cancel)
@@ -162,18 +167,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-    /*
-    @Composable
-    fun presentDialog() {
-        androidx.ui.material.AlertDialog(
-            onCloseRequest = {},
-            title = {Text("1111")},
-            text = {},
-            confirmButton = {},
-        )
-    }
-*/
 
     fun createAd() {
         MobileAds.initialize(this)

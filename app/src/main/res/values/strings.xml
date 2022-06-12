@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">수능 한국사 노트</string>
+
+
+    <!-- introduce -->
+    <string name="introduce_title">앱 소개</string>
+    <string name="introduce_content">* 수능 한국사의 암기해야할 핵심 단어를 중심으로 정리하였습니다.\n\n
+* 정리된 내용이 수능 한국사의 모든 내용은 아닙니다.\n\n
+* 따라서 꼭 한국사를 전체적으로 공부하고 이 앱을 이용하여 암기할것을 권고드립니다.\n
+    </string>
+
 </resources>

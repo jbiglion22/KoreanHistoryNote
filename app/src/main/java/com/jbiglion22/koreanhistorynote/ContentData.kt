@@ -1,6 +1,8 @@
 package com.jbiglion22.koreanhistorynote
 
 import android.content.Context
+import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
@@ -10,10 +12,17 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.core.content.ContextCompat.getSystemService
+import kotlin.system.exitProcess
 
-val titlenameList = arrayListOf(
+val titlenameList = mutableListOf<TitleName>(
 
     // --------------- 1 ------------------//
     TitleName(1,
@@ -391,15 +400,14 @@ class ContentData {
     var fulltext = ""
     var list = mutableListOf<ContentItem>()
     lateinit var span : SpannableStringBuilder
+    lateinit var span_question : SpannableStringBuilder
 
     constructor(conAct : Context, fulltext: String) {
 
         var l: Int =0
         var loc0: Int =0
-        var loc1: Int =0
-        var sstr = ""
-
-
+        var loc1: Int
+        var sstr : String
 
         while(fulltext.indexOf("[[",loc0)>0 ) {
             loc1=fulltext.indexOf("[[",loc0)
@@ -441,6 +449,115 @@ class ContentData {
                 val ccs= object: ClickableSpan(){
                     override fun onClick(view: View) {
                         Toast.makeText(conAct, "내용: ${list[i].strText}", Toast.LENGTH_LONG).show()
+
+
+
+
+                        // 답변 다이얼로그 출력 ----------------------->>>>
+                        var builder= AlertDialog.Builder(conAct)
+                        builder.setTitle("답변?")
+                        builder.setIcon(R.mipmap.ic_launcher_khn_round)
+
+                        var layoutInflater: LayoutInflater = conAct.getSystemService( Context.LAYOUT_INFLATER_SERVICE ) as LayoutInflater
+                        val v1 = layoutInflater.inflate(R.layout.dialog_answer, null)
+                        builder.setView(v1)
+                        var listener = object: DialogInterface.OnClickListener{
+                            override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                            }
+                        }
+                        val dia = builder.create()
+                        dia.show()
+                        var btnAnswer = v1.findViewById<Button>(R.id.btn_answer)
+                        btnAnswer.setOnClickListener{
+                            dia.dismiss()
+                            var edAnswer = v1.findViewById<EditText>(R.id.ed_answer)
+                            Toast.makeText(conAct, "답변: ${edAnswer.text}", Toast.LENGTH_SHORT).show()
+
+                            if(edAnswer.text.toString() == list[i].strText ) {
+                                Toast.makeText(conAct, "맞았습니다.", Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(conAct, "틀렸습니다.", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        // 답변 다이얼로그 출력 -----------------------<<<<
+
+
+
+
+
+
+                    }
+                }
+                span.setSpan(ccs, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 볼드
+                val boldSpan = StyleSpan(Typeface.BOLD)
+                span.setSpan(boldSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 크기
+                val sizeBigSpan = RelativeSizeSpan(1.0f)
+                span.setSpan(sizeBigSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 색상
+                val colorBlueSpan = ForegroundColorSpan(Color.RED)
+                span.setSpan(colorBlueSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+        }
+
+        var fullString_question=""
+        for (i in list.indices) {
+            if (list[i].intStyle == 0) {
+                fullString_question = fullString_question + list[i].strText
+            } else {
+                fullString_question += "[클릭]"
+            }
+
+        }
+        span_question = SpannableStringBuilder(fullString_question)
+        for (i in list.indices) {
+            if (list[i].intStyle==1) {
+
+                //클릭
+                val ccs= object: ClickableSpan(){
+                    override fun onClick(view: View) {
+                        Toast.makeText(conAct, "내용: ${list[i].strText}", Toast.LENGTH_LONG).show()
+
+                        // 답변 다이얼로그 출력 ----------------------->>>>
+                        var builder= AlertDialog.Builder(conAct)
+                        builder.setTitle("답변?")
+                        builder.setIcon(R.mipmap.ic_launcher_khn_round)
+
+                        var layoutInflater: LayoutInflater = conAct.getSystemService( Context.LAYOUT_INFLATER_SERVICE ) as LayoutInflater
+                        val v1 = layoutInflater.inflate(R.layout.dialog_answer, null)
+                        builder.setView(v1)
+                        var listener = object: DialogInterface.OnClickListener{
+                            override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                            }
+                        }
+                        val dia = builder.create()
+                        dia.show()
+                        var btnAnswer = v1.findViewById<Button>(R.id.btn_answer)
+                        btnAnswer.setOnClickListener{
+                            dia.dismiss()
+                            var edAnswer = v1.findViewById<EditText>(R.id.ed_answer)
+                            Toast.makeText(conAct, "답변: ${edAnswer.text}", Toast.LENGTH_SHORT).show()
+
+                            if(edAnswer.text.toString() == list[i].strText ) {
+                                Toast.makeText(conAct, "맞았습니다.", Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(conAct, "틀렸습니다.", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        // 답변 다이얼로그 출력 -----------------------<<<<
+
+
+
+
+
+
                     }
                 }
                 span.setSpan(ccs, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

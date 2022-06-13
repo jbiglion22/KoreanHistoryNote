@@ -1,31 +1,25 @@
 package com.jbiglion22.koreanhistorynote
 
-import android.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.PackageManagerCompat.LOG_TAG
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.jbiglion22.koreanhistorynote.databinding.ActivityContentBinding
+import com.jbiglion22.koreanhistorynote.databinding.ActivityQuestionBinding
 
+class QuestionActivity : AppCompatActivity() {
+    val LOG_HEAD ="KOREAHISTORYNOTE-QustionActivity"
 
-class ContentActivity : AppCompatActivity() {
-    val LOG_HEAD ="KOREAHISTORYNOTE-ContentActivity"
-
-    private lateinit var binding: ActivityContentBinding
-
+    private lateinit var binding: ActivityQuestionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityContentBinding.inflate(layoutInflater)
+        binding = ActivityQuestionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
@@ -34,20 +28,12 @@ class ContentActivity : AppCompatActivity() {
         val titlename: TitleName = titlenameList.get(curPos)
 
         var actionBar = supportActionBar
-        actionBar?.title = titlename.name
+        actionBar?.title = "퀴즈"
 
         var cc= ContentData(this, titlename.cont)
-        binding.tvContent.text = cc.span
+        binding.tvTitle.text = titlename.name
+        binding.tvContent.text = cc.span_question
         binding.tvContent.movementMethod = LinkMovementMethod()
-
-        if (titlename.explain.length>0) {
-            binding.tvExplain.visibility = View.VISIBLE
-            binding.tvTitleexplain.visibility = View.VISIBLE
-            binding.tvExplain.text = titlename.explain
-        } else {
-            binding.tvExplain.visibility = View.INVISIBLE
-            binding.tvTitleexplain.visibility = View.INVISIBLE
-        }
 
         setBannerAds()
     }

@@ -17,7 +17,7 @@ class EntraneActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             finish()
-        }, 2000)
+        }, 1000)
 
     }
 }

@@ -451,8 +451,6 @@ class ContentData {
                         Toast.makeText(conAct, "내용: ${list[i].strText}", Toast.LENGTH_LONG).show()
 
 
-
-
                         // 답변 다이얼로그 출력 ----------------------->>>>
                         var builder= AlertDialog.Builder(conAct)
                         builder.setTitle("답변?")
@@ -506,12 +504,16 @@ class ContentData {
 
         }
 
+
+
+
         var fullString_question=""
         for (i in list.indices) {
             if (list[i].intStyle == 0) {
                 fullString_question = fullString_question + list[i].strText
             } else {
-                fullString_question += "[클릭]"
+                for (i in 1..list[i].strText.length)
+                    fullString_question += "_"
             }
 
         }
@@ -553,26 +555,22 @@ class ContentData {
                         }
                         // 답변 다이얼로그 출력 -----------------------<<<<
 
-
-
-
-
-
                     }
                 }
-                span.setSpan(ccs, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                span_question.setSpan(ccs, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 볼드
                 val boldSpan = StyleSpan(Typeface.BOLD)
-                span.setSpan(boldSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                span_question.setSpan(boldSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 크기
-                val sizeBigSpan = RelativeSizeSpan(1.0f)
-                span.setSpan(sizeBigSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                val sizeBigSpan = RelativeSizeSpan(1.2f)
+                span_question.setSpan(sizeBigSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 색상
-                val colorBlueSpan = ForegroundColorSpan(Color.RED)
-                span.setSpan(colorBlueSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                val colorBlueSpan = ForegroundColorSpan(Color.BLUE)
+                span_question.setSpan(colorBlueSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
             }
 
         }

@@ -1,7 +1,6 @@
 package com.jbiglion22.koreanhistorynote
 
 import android.content.Context
-import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Typeface
@@ -18,14 +17,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat.finishAffinity
-import androidx.core.content.ContextCompat.getSystemService
-import kotlin.system.exitProcess
 
-val ContentDataList = mutableListOf<TitleName>(
+val contentdataList = mutableListOf<ContentDataItem>(
 
     // --------------- 1 ------------------//
-    TitleName(1,
+    ContentDataItem(1,
         "1. 선사 문화와 여러나라의 성장",
     """
 * 구석기: 이동생활 → [[동굴||1]], [[땐석기||1]], [[주먹도끼||1]]
@@ -40,7 +36,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
 
     // --------------- 2 ------------------//
-    TitleName(2,"2. 삼국과 가야의 발전",
+    ContentDataItem(2,"2. 삼국과 가야의 발전",
         """
 [고구려]
 * 소수림왕: 율령, 불교, 태학
@@ -63,7 +59,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
 
     // --------------- 3 ------------------//
-    TitleName(3,"3. 통일 신라와 발해의 발전",
+    ContentDataItem(3,"3. 통일 신라와 발해의 발전",
         """
 ▷통일신라
 * 신문왕 : 국학, 관료전지금, 녹읍폐지
@@ -77,7 +73,7 @@ val ContentDataList = mutableListOf<TitleName>(
         ""),
 
     // --------------- 4 ------------------//
-    TitleName(4,"4. 고려의 발전과 변화",
+    ContentDataItem(4,"4. 고려의 발전과 변화",
         """
 ▷ 고려전기
 * 태조 : 사심관, 기인제도, 흑장(빈민구휼제도), 서경중시, 훈요10조
@@ -118,7 +114,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
     """.trimIndent(),
         ""),
-    TitleName(5, "5. 고려의 경제, 사회와 문화",
+    ContentDataItem(5, "5. 고려의 경제, 사회와 문화",
         """
 * 전시과 – 토지제도
 
@@ -136,7 +132,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(6,"6. 조선의 건국과 통치체제의 정비",
+    ContentDataItem(6,"6. 조선의 건국과 통치체제의 정비",
         """
 * 태종: 6조직계제, 사병혁파, 호폐법
 
@@ -154,7 +150,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(7,"7. 조선의 대외 관계와 양 난의 극복",
+    ContentDataItem(7,"7. 조선의 대외 관계와 양 난의 극복",
         """
 ▷ 왜란
 
@@ -172,7 +168,7 @@ val ContentDataList = mutableListOf<TitleName>(
        
     """.trimIndent(),
         ""),
-    TitleName(8,"8. 조선후기의 정치 변동과 제도 개편",
+    ContentDataItem(8,"8. 조선후기의 정치 변동과 제도 개편",
         """
 * 통치 체제: 비변사, 훈련도감, 5군영, 속오군
 
@@ -194,7 +190,7 @@ val ContentDataList = mutableListOf<TitleName>(
             
         """.trimIndent(),
         ""),
-    TitleName(9,"9. 조선후기의 사회의 변동과 문화의 새경향",
+    ContentDataItem(9,"9. 조선후기의 사회의 변동과 문화의 새경향",
         """
 * 양반수 증가
 
@@ -204,7 +200,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(10,"10. 흥선대원군의 정치와 개화정책의 추진",
+    ContentDataItem(10,"10. 흥선대원군의 정치와 개화정책의 추진",
         """
 * 흥선대원군 : 경복궁중건(원납전, 당백전), 삼정의 문란(호포제, 사창제), 서원철폐, 비변사축소, 대전회통
 
@@ -220,7 +216,7 @@ val ContentDataList = mutableListOf<TitleName>(
      
         """.trimIndent(),
         ""),
-    TitleName(11,"11. 구국 운동과 근대 국가 수립 운동의 전개","""
+    ContentDataItem(11,"11. 구국 운동과 근대 국가 수립 운동의 전개","""
 ▷ 동학농민운동 
 
 * 고부농민봉기 : 조병갑, 전봉준 봉기
@@ -249,7 +245,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
     """.trimIndent(),
         ""),
-    TitleName(12,"12. 일제의 국권 침탈과 구국 수호 운동",
+    ContentDataItem(12,"12. 일제의 국권 침탈과 구국 수호 운동",
         """
 * 한일의정서
 
@@ -277,13 +273,13 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(13,"13. 개항이후의 경제와 사회문화의 변화",
+    ContentDataItem(13,"13. 개항이후의 경제와 사회문화의 변화",
         """
 * 국채보상운동 : 대구, 서상돈, 대한매일신보
 
         """.trimIndent(),
         ""),
-    TitleName(14,"14. 일제의 식민통치와 경제수탈",
+    ContentDataItem(14,"14. 일제의 식민통치와 경제수탈",
         """
 * 1910년 무단통치 : 헌병경찰, 태형령, 토지조사사업, 회사령
 
@@ -293,7 +289,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(15,"15. 3.1운동과 대한민국 임시정부의 활동",
+    ContentDataItem(15,"15. 3.1운동과 대한민국 임시정부의 활동",
         """
 * 비밀결사단체: 독립의군부(복벽주의 – 옛왕조회복), 대한광복회(공화정)
 
@@ -303,7 +299,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
     """.trimIndent(),
         ""),
-    TitleName(16,"16. 3.1 운동 이후 국내 민족운동과 사회문화변화",
+    ContentDataItem(16,"16. 3.1 운동 이후 국내 민족운동과 사회문화변화",
         """
 * 물산장려운동(평양), 민립대학설립운동, 문맹퇴치운동
 
@@ -311,7 +307,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
             """,
         ""),
-    TitleName(17,"17. 국외민족운동과 건국주비활동",
+    ContentDataItem(17,"17. 국외민족운동과 건국주비활동",
         """
 ▷ 1920년대 무장투쟁 : 봉오동전투-홍범도, 청산리대첩-김좌진, 홍범도, 백운평, 어랑총
 
@@ -345,7 +341,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(18,"18. 대한민국 정부수립과 6.25 전쟁",
+    ContentDataItem(18,"18. 대한민국 정부수립과 6.25 전쟁",
         """
 * 모스크바 3국 외상회의 : 미소공동위원회
 
@@ -355,7 +351,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(19,"19. 자유 민주주의의 시련과 발전",
+    ContentDataItem(19,"19. 자유 민주주의의 시련과 발전",
         """
 * 4.19혁명 : 3.15부정선거, 김주열, 이승만하야, 장면내각
 
@@ -365,7 +361,7 @@ val ContentDataList = mutableListOf<TitleName>(
 
         """.trimIndent(),
         ""),
-    TitleName(20,"20. 경제 발전과 사회변화, 통일을 위한 노력",
+    ContentDataItem(20,"20. 경제 발전과 사회변화, 통일을 위한 노력",
         """
 * 7.4남북공동성명 : 박정희, 통일 3대원칙(자주, 평화, 민족대단결), 남북조절위원회, 이후락
 
@@ -377,7 +373,11 @@ val ContentDataList = mutableListOf<TitleName>(
         ""),
 )
 
-class ContentItem {
+// 강의별 컨텐츠 조각(아이템)
+class ContentDataItem (var num:Int, val name: String, val cont: String, val explain: String)
+
+// 컨텐츠를 출력을 위해 분해한 조각(아이템)
+class ContentSliceItem {
     var strText=""
     var intStyle=0
     var intStart=0
@@ -395,10 +395,132 @@ class ContentItem {
     }
 }
 
-class ContentData {
+// 강의별 컨텐츠를 분해하여는 여러 작을을 담고있음
+// (ContentDataItem -> ContentSliceItem)
+class ContentDataAnalysis {
     val LOG_HEAD ="ContentData"
-    var list = mutableListOf<ContentItem>()
+    var contentslideList = mutableListOf<ContentSliceItem>()
     var span : SpannableStringBuilder
+
+    constructor(conAct : Context, fulltext: String) {
+
+        var l: Int =0
+        var loc0: Int =0
+        var loc1: Int
+        var sstr : String
+
+        while(fulltext.indexOf("[[",loc0)>0 ) {
+            loc1=fulltext.indexOf("[[",loc0)
+            contentslideList.add(l, ContentSliceItem(fulltext.substring(loc0,loc1)))
+            Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
+            l++
+
+            loc0 = loc1+2
+            loc1 = fulltext.indexOf("]]",loc0)
+            sstr = fulltext.substring(loc0,loc1)
+            if (sstr.indexOf("||",0)>0) {
+                var str_arr = sstr.split("||")
+                contentslideList.add(l, ContentSliceItem(str_arr[0], str_arr[1].toInt(), cntNowLength(), cntNowLength()+str_arr[0].length))
+            } else {
+                contentslideList.add(l, ContentSliceItem(sstr))
+            }
+            Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
+            l++
+
+            loc0=loc1+2
+        }
+        loc1=fulltext.length
+        contentslideList.add(l,ContentSliceItem(fulltext.substring(loc0,loc1)))
+        Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
+
+
+        Log.d(LOGTAG,"[${LOG_HEAD}] list.size=${contentslideList.size}")
+
+
+        var fullString=""
+        for (i in contentslideList.indices) {
+            fullString = fullString+contentslideList[i].strText
+        }
+        span = SpannableStringBuilder(fullString)
+        for (i in contentslideList.indices) {
+            if (contentslideList[i].intStyle==1) {
+
+                //클릭
+                val ccs= object: ClickableSpan(){
+                    override fun onClick(view: View) {
+                        Toast.makeText(conAct, "내용: ${contentslideList[i].strText}", Toast.LENGTH_LONG).show()
+
+
+                        // 답변 다이얼로그 출력 ----------------------->>>>
+                        var builder= AlertDialog.Builder(conAct)
+                        builder.setTitle("답변?")
+                        builder.setIcon(R.mipmap.ic_launcher_khn_round)
+
+                        var layoutInflater: LayoutInflater = conAct.getSystemService( Context.LAYOUT_INFLATER_SERVICE ) as LayoutInflater
+                        val v1 = layoutInflater.inflate(R.layout.dialog_answer, null)
+                        builder.setView(v1)
+                        var listener = object: DialogInterface.OnClickListener{
+                            override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                            }
+                        }
+                        val dia = builder.create()
+                        dia.show()
+                        var btnAnswer = v1.findViewById<Button>(R.id.btn_answer)
+                        btnAnswer.setOnClickListener{
+                            dia.dismiss()
+                            var edAnswer = v1.findViewById<EditText>(R.id.ed_answer)
+                            Toast.makeText(conAct, "답변: ${edAnswer.text}", Toast.LENGTH_SHORT).show()
+
+                            if(edAnswer.text.toString() == contentslideList[i].strText ) {
+                                Toast.makeText(conAct, "맞았습니다.", Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(conAct, "틀렸습니다.", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        // 답변 다이얼로그 출력 -----------------------<<<<
+
+
+
+
+
+
+                    }
+                }
+                span.setSpan(ccs, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 볼드
+                val boldSpan = StyleSpan(Typeface.BOLD)
+                span.setSpan(boldSpan, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 크기
+                val sizeBigSpan = RelativeSizeSpan(1.0f)
+                span.setSpan(sizeBigSpan, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 색상
+                val colorBlueSpan = ForegroundColorSpan(Color.RED)
+                span.setSpan(colorBlueSpan, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+        }
+
+    }
+
+    fun cntNowLength(): Int{
+        var k=0
+        for (i in contentslideList.indices) {
+            k=k+contentslideList[i].strText.length
+        }
+        return k
+    }
+
+}
+
+// 강의별 컨텐츠를 퀴즈로만들어 분해하여는 여러 작을을 담고있음
+// (ContentDataItem -> ContentSliceItem)
+class QuestionDataAnalysis {
+    val LOG_HEAD ="QuestionDataAnalysis"
+    var contentslideList = mutableListOf<ContentSliceItem>()
     var span_question : SpannableStringBuilder
 
     constructor(conAct : Context, fulltext: String) {
@@ -410,7 +532,7 @@ class ContentData {
 
         while(fulltext.indexOf("[[",loc0)>0 ) {
             loc1=fulltext.indexOf("[[",loc0)
-            list.add(l, ContentItem(fulltext.substring(loc0,loc1)))
+            contentslideList.add(l, ContentSliceItem(fulltext.substring(loc0,loc1)))
             Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
             l++
 
@@ -419,9 +541,9 @@ class ContentData {
             sstr = fulltext.substring(loc0,loc1)
             if (sstr.indexOf("||",0)>0) {
                 var str_arr = sstr.split("||")
-                list.add(l, ContentItem(str_arr[0], str_arr[1].toInt(), cntNowLength(), cntNowLength()+str_arr[0].length))
+                contentslideList.add(l, ContentSliceItem(str_arr[0], str_arr[1].toInt(), cntNowLength(), cntNowLength()+str_arr[0].length))
             } else {
-                list.add(l, ContentItem(sstr))
+                contentslideList.add(l, ContentSliceItem(sstr))
             }
             Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
             l++
@@ -429,101 +551,31 @@ class ContentData {
             loc0=loc1+2
         }
         loc1=fulltext.length
-        list.add(l,ContentItem(fulltext.substring(loc0,loc1)))
+        contentslideList.add(l,ContentSliceItem(fulltext.substring(loc0,loc1)))
         Log.d(LOGTAG,"[${LOG_HEAD}] sub=${fulltext.substring(loc0,loc1)}")
 
 
-        Log.d(LOGTAG,"[${LOG_HEAD}] list.size=${list.size}")
-
-
-        var fullString=""
-        for (i in list.indices) {
-            fullString = fullString+list[i].strText
-        }
-        span = SpannableStringBuilder(fullString)
-        for (i in list.indices) {
-            if (list[i].intStyle==1) {
-
-                //클릭
-                val ccs= object: ClickableSpan(){
-                    override fun onClick(view: View) {
-                        Toast.makeText(conAct, "내용: ${list[i].strText}", Toast.LENGTH_LONG).show()
-
-
-                        // 답변 다이얼로그 출력 ----------------------->>>>
-                        var builder= AlertDialog.Builder(conAct)
-                        builder.setTitle("답변?")
-                        builder.setIcon(R.mipmap.ic_launcher_khn_round)
-
-                        var layoutInflater: LayoutInflater = conAct.getSystemService( Context.LAYOUT_INFLATER_SERVICE ) as LayoutInflater
-                        val v1 = layoutInflater.inflate(R.layout.dialog_answer, null)
-                        builder.setView(v1)
-                        var listener = object: DialogInterface.OnClickListener{
-                            override fun onClick(p0: DialogInterface?, p1: Int) {
-
-                            }
-                        }
-                        val dia = builder.create()
-                        dia.show()
-                        var btnAnswer = v1.findViewById<Button>(R.id.btn_answer)
-                        btnAnswer.setOnClickListener{
-                            dia.dismiss()
-                            var edAnswer = v1.findViewById<EditText>(R.id.ed_answer)
-                            Toast.makeText(conAct, "답변: ${edAnswer.text}", Toast.LENGTH_SHORT).show()
-
-                            if(edAnswer.text.toString() == list[i].strText ) {
-                                Toast.makeText(conAct, "맞았습니다.", Toast.LENGTH_LONG).show()
-                            } else {
-                                Toast.makeText(conAct, "틀렸습니다.", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        // 답변 다이얼로그 출력 -----------------------<<<<
-
-
-
-
-
-
-                    }
-                }
-                span.setSpan(ccs, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                // 볼드
-                val boldSpan = StyleSpan(Typeface.BOLD)
-                span.setSpan(boldSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                // 크기
-                val sizeBigSpan = RelativeSizeSpan(1.0f)
-                span.setSpan(sizeBigSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                // 색상
-                val colorBlueSpan = ForegroundColorSpan(Color.RED)
-                span.setSpan(colorBlueSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-
-        }
-
-
+        Log.d(LOGTAG,"[${LOG_HEAD}] list.size=${contentslideList.size}")
 
 
         var fullString_question=""
-        for (i in list.indices) {
-            if (list[i].intStyle == 0) {
-                fullString_question = fullString_question + list[i].strText
+        for (i in contentslideList.indices) {
+            if (contentslideList[i].intStyle == 0) {
+                fullString_question = fullString_question + contentslideList[i].strText
             } else {
-                for (i in 1..list[i].strText.length)
+                for (i in 1..contentslideList[i].strText.length)
                     fullString_question += "_"
             }
 
         }
         span_question = SpannableStringBuilder(fullString_question)
-        for (i in list.indices) {
-            if (list[i].intStyle==1) {
+        for (i in contentslideList.indices) {
+            if (contentslideList[i].intStyle==1) {
 
                 //클릭
                 val ccs= object: ClickableSpan(){
                     override fun onClick(view: View) {
-                        Toast.makeText(conAct, "내용: ${list[i].strText}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(conAct, "내용: ${contentslideList[i].strText}", Toast.LENGTH_LONG).show()
 
                         // 답변 다이얼로그 출력 ----------------------->>>>
                         var builder= AlertDialog.Builder(conAct)
@@ -546,7 +598,7 @@ class ContentData {
                             var edAnswer = v1.findViewById<EditText>(R.id.ed_answer)
                             Toast.makeText(conAct, "답변: ${edAnswer.text}", Toast.LENGTH_SHORT).show()
 
-                            if(edAnswer.text.toString() == list[i].strText ) {
+                            if(edAnswer.text.toString() == contentslideList[i].strText ) {
                                 Toast.makeText(conAct, "맞았습니다.", Toast.LENGTH_LONG).show()
                             } else {
                                 Toast.makeText(conAct, "틀렸습니다.", Toast.LENGTH_LONG).show()
@@ -556,19 +608,19 @@ class ContentData {
 
                     }
                 }
-                span_question.setSpan(ccs, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                span_question.setSpan(ccs, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 볼드
                 val boldSpan = StyleSpan(Typeface.BOLD)
-                span_question.setSpan(boldSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                span_question.setSpan(boldSpan, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 크기
                 val sizeBigSpan = RelativeSizeSpan(1.2f)
-                span_question.setSpan(sizeBigSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                span_question.setSpan(sizeBigSpan, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 색상
                 val colorBlueSpan = ForegroundColorSpan(Color.BLUE)
-                span_question.setSpan(colorBlueSpan, list[i].intStart, list[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                span_question.setSpan(colorBlueSpan, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             }
 
@@ -578,8 +630,8 @@ class ContentData {
 
     fun cntNowLength(): Int{
         var k=0
-        for (i in list.indices) {
-            k=k+list[i].strText.length
+        for (i in contentslideList.indices) {
+            k=k+contentslideList[i].strText.length
         }
         return k
     }

@@ -23,14 +23,14 @@ class QuestionActivity : AppCompatActivity() {
 
 
         var curPos:Int = intent.getIntExtra("curPos", 0)
-        val titlename: TitleName = ContentDataList.get(curPos)
+        val titlename: ContentDataItem = contentdataList.get(curPos)
 
         var actionBar = supportActionBar
         actionBar?.title = "퀴즈"
 
-        var cc= ContentData(this, titlename.cont)
+        var quesrtiondataAnaysis= QuestionDataAnalysis(this, titlename.cont)
         binding.tvTitle.text = titlename.name
-        binding.tvContent.text = cc.span_question
+        binding.tvContent.text = quesrtiondataAnaysis.span_question
         binding.tvContent.movementMethod = LinkMovementMethod()
 
         setBannerAds()

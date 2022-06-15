@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvTitlename.setHasFixedSize(true)
 
-        binding.rvTitlename.adapter = TitleNameAdapter(ContentDataList)
+        binding.rvTitlename.adapter = TitleNameAdapter(contentdataList)
 
 
         if (savedInstanceState != null) {

@@ -26,13 +26,13 @@ class ContentActivity : AppCompatActivity() {
 
 
         var curPos:Int = intent.getIntExtra("curPos", 0)
-        val titlename: TitleName = ContentDataList.get(curPos)
+        val titlename: ContentDataItem = contentdataList.get(curPos)
 
         var actionBar = supportActionBar
         actionBar?.title = titlename.name
 
-        var cc= ContentData(this, titlename.cont)
-        binding.tvContent.text = cc.span
+        var contentdataAnalysis= ContentDataAnalysis(this, titlename.cont)
+        binding.tvContent.text = contentdataAnalysis.span
         binding.tvContent.movementMethod = LinkMovementMethod()
 
         if (titlename.explain.length>0) {

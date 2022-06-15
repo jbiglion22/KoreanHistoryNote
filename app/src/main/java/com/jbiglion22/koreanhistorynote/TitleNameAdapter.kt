@@ -42,7 +42,7 @@ class TitleNameAdapter(val datas: MutableList<TitleName>): RecyclerView.Adapter<
         binding.tvName.text = datas[position].name
         binding.clRoot.setOnClickListener {
             val curPos : Int = position
-            val titlename: TitleName = titlenameList.get(curPos)
+            val titlename: TitleName = ContentDataList.get(curPos)
 
             val intent = Intent(holder.itemView.context, ContentActivity::class.java)
             intent.putExtra("curPos", curPos)
@@ -50,7 +50,7 @@ class TitleNameAdapter(val datas: MutableList<TitleName>): RecyclerView.Adapter<
         }
         binding.imgbtnQuestion.setOnClickListener {
             val curPos : Int = position
-            val titlename: TitleName = titlenameList.get(curPos)
+            val titlename: TitleName = ContentDataList.get(curPos)
 
             val intent = Intent(holder.itemView.context, QuestionActivity::class.java)
             intent.putExtra("curPos", curPos)

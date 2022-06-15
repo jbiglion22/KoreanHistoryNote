@@ -22,7 +22,7 @@ import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat.getSystemService
 import kotlin.system.exitProcess
 
-val titlenameList = mutableListOf<TitleName>(
+val ContentDataList = mutableListOf<TitleName>(
 
     // --------------- 1 ------------------//
     TitleName(1,
@@ -397,10 +397,9 @@ class ContentItem {
 
 class ContentData {
     val LOG_HEAD ="ContentData"
-    var fulltext = ""
     var list = mutableListOf<ContentItem>()
-    lateinit var span : SpannableStringBuilder
-    lateinit var span_question : SpannableStringBuilder
+    var span : SpannableStringBuilder
+    var span_question : SpannableStringBuilder
 
     constructor(conAct : Context, fulltext: String) {
 

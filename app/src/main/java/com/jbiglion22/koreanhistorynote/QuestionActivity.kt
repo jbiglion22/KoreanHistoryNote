@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
-import com.jbiglion22.koreanhistorynote.databinding.ActivityContentBinding
 import com.jbiglion22.koreanhistorynote.databinding.ActivityQuestionBinding
 
 class QuestionActivity : AppCompatActivity() {
@@ -25,7 +23,7 @@ class QuestionActivity : AppCompatActivity() {
 
 
         var curPos:Int = intent.getIntExtra("curPos", 0)
-        val titlename: TitleName = titlenameList.get(curPos)
+        val titlename: TitleName = ContentDataList.get(curPos)
 
         var actionBar = supportActionBar
         actionBar?.title = "퀴즈"

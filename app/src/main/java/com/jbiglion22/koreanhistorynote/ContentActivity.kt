@@ -1,16 +1,11 @@
 package com.jbiglion22.koreanhistorynote
 
-import android.graphics.Color
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.PackageManagerCompat.LOG_TAG
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
@@ -31,7 +26,7 @@ class ContentActivity : AppCompatActivity() {
 
 
         var curPos:Int = intent.getIntExtra("curPos", 0)
-        val titlename: TitleName = titlenameList.get(curPos)
+        val titlename: TitleName = ContentDataList.get(curPos)
 
         var actionBar = supportActionBar
         actionBar?.title = titlename.name

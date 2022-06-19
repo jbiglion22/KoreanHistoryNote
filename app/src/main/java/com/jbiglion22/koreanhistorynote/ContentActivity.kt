@@ -185,6 +185,8 @@ class ContentDataAnalysis {
             if (contentslideList[i].intStyle==1) {
 
                 //클릭
+                // 일단 막아놓음 -- 나중에 단어별 정보를 출력할때 다시 사용할것
+                /*
                 val ccs= object: ClickableSpan(){
                     override fun onClick(view: View) {
                         Toast.makeText(conAct, "내용: ${contentslideList[i].strText}", Toast.LENGTH_LONG).show()
@@ -221,6 +223,7 @@ class ContentDataAnalysis {
                     }
                 }
                 span.setSpan(ccs, contentslideList[i].intStart, contentslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                */
 
                 // 볼드
                 val boldSpan = StyleSpan(Typeface.BOLD)

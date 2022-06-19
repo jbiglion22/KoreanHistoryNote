@@ -44,7 +44,7 @@ class QuestionActivity : AppCompatActivity() {
         var actionBar = supportActionBar
         actionBar?.title = "퀴즈"
 
-        var quesrtiondataAnaysis= QuestionDataAnalysis(this, titlename.cont)
+        var quesrtiondataAnaysis= QuestionDataAnalysis(this, titlename.cont, binding)
         binding.tvTitle.text = titlename.name
         binding.tvContent.text = quesrtiondataAnaysis.span
         binding.tvContent.movementMethod = LinkMovementMethod()
@@ -101,17 +101,22 @@ class QuestionSliceItem {
     var intStyle=0
     var intStart=0
     var intEnd=0
-    var bCorrect = false // 정답인가?
+
+    var isQuestion=false // 문제인가?
+    var strAnswer=""     // 답변
+    var isCorrect = false // 정답인가?
 
     constructor(text:String) {
         strText = text
         intStyle = 0
     }
-    constructor(text:String, sty:Int, start:Int, end:Int) {
+    constructor(text:String, sty:Int, start:Int, end:Int, question:Boolean, answer:String) {
         strText = text
         intStyle = sty
         intStart = start
         intEnd = end
+        isQuestion=question
+        strAnswer = answer
     }
 }
 
@@ -121,14 +126,16 @@ class QuestionSliceItem {
 class QuestionDataAnalysis {
     val LOG_HEAD ="QuestionDataAnalysis"
     var questionslideList = mutableListOf<QuestionSliceItem>()
-    var span : SpannableStringBuilder
+    lateinit var span : SpannableStringBuilder
 
-    constructor(conAct : Context, fulltext: String) {
+    constructor(conAct : Context, fulltext: String, binding: ActivityQuestionBinding) {
 
         var cnt: Int =0 // questionslideList에 넣는 순서번호
         var loc0: Int =0
         var loc1: Int = 0
         var str : String =""
+
+        var range = (1..2)
 
         // 컨텐츠 내용을 분해함  ------------->>>>>
         while(fulltext.indexOf("[[",loc0)>0 ) {
@@ -140,9 +147,34 @@ class QuestionDataAnalysis {
             loc0 = loc1+2
             loc1 = fulltext.indexOf("]]",loc0)
             str = fulltext.substring(loc0,loc1)
-            if (str.indexOf("||",0)>0) {
+            if (str.indexOf("||",0)>0 ) {
                 var str_arr = str.split("||")
-                questionslideList.add(cnt, QuestionSliceItem(str_arr[0], str_arr[1].toInt(), cntNowLength(), cntNowLength()+str_arr[0].length))
+                if (range.random()==1) {
+                    var str = "[__클릭__]"
+                    questionslideList.add(
+                        cnt,
+                        QuestionSliceItem(
+                            str,
+                            str_arr[1].toInt(),
+                            cntNowLength(),
+                            cntNowLength() + str.length,
+                            true,
+                            str_arr[0]
+                        )
+                    )
+                } else {
+                    questionslideList.add(
+                        cnt,
+                        QuestionSliceItem(
+                            str_arr[0],
+                            str_arr[1].toInt(),
+                            cntNowLength(),
+                            cntNowLength() + str_arr[0].length,
+                            false,
+                            str_arr[0]
+                        )
+                    )
+                }
             } else {
                 questionslideList.add(cnt, QuestionSliceItem(str))
             }
@@ -159,6 +191,11 @@ class QuestionDataAnalysis {
 
         // 컨텐츠 내용을 분해함  -------------<<<<<<<<<<
 
+        remake(conAct, binding)
+
+    }
+
+    fun remake(conAct : Context, binding: ActivityQuestionBinding) {
         // 분해된 내용을 재조합함  ------------->>>>>>>>>>>>>>>>
 
         // SpannableStringBuilder로 속성을 입힌다.
@@ -167,14 +204,15 @@ class QuestionDataAnalysis {
             if (questionslideList[i].intStyle == 0) {
                 fullString_question = fullString_question + questionslideList[i].strText
             } else {
-                for (i in 1..questionslideList[i].strText.length)
-                    fullString_question += "_"
+                fullString_question = fullString_question + questionslideList[i].strText
+//                for (i in 1..questionslideList[i].strText.length)
+//                    fullString_question += "_"
             }
 
         }
         span = SpannableStringBuilder(fullString_question)
         for (i in questionslideList.indices) {
-            if (questionslideList[i].intStyle==1) {
+            if (questionslideList[i].intStyle==1 && questionslideList[i].isQuestion) {
 
                 //클릭
                 val ccs= object: ClickableSpan(){
@@ -200,18 +238,29 @@ class QuestionDataAnalysis {
                         btnAnswer.setOnClickListener{
                             dia.dismiss()
                             var edAnswer = v1.findViewById<EditText>(R.id.ed_answer)
-                            Toast.makeText(conAct, "답변: ${edAnswer.text}", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(conAct, "답변: ${edAnswer.text}", Toast.LENGTH_SHORT).show()
 
-                            if(edAnswer.text.toString() == questionslideList[i].strText ) {
-                                questionslideList[i].bCorrect = true        // 정답
-                                Toast.makeText(conAct, "맞았습니다.", Toast.LENGTH_LONG).show()
+                            if(edAnswer.text.toString() == questionslideList[i].strAnswer ) {
+                                questionslideList[i].isCorrect = true        // 정답
+                                //Toast.makeText(conAct, "맞았습니다.", Toast.LENGTH_LONG).show()
                             } else {
-                                questionslideList[i].bCorrect = false        // 오답
-                                Toast.makeText(conAct, "틀렸습니다.", Toast.LENGTH_LONG).show()
+                                questionslideList[i].isCorrect = false        // 오답
+                                //Toast.makeText(conAct, "틀렸습니다.", Toast.LENGTH_LONG).show()
                             }
+
+                            // 정답을 원래에 넣고
+                            questionslideList[i].strText = questionslideList[i].strAnswer
+                            questionslideList[i].intStyle = 2
+                            // 이후를 이동함
+                            questionslideList[i].intEnd += questionslideList[i].strText.length-"[__클릭__]".length
+                            for (j in i+1 until questionslideList.size) {
+                                questionslideList[j].intStart += questionslideList[i].strText.length-"[__클릭__]".length
+                                questionslideList[j].intEnd += questionslideList[i].strText.length-"[__클릭__]".length
+                            }
+                            remake(conAct, binding)
+                            binding.tvContent.text = span
                         }
                         // 답변 다이얼로그 출력 -----------------------<<<<
-
                     }
                 }
                 span.setSpan(ccs, questionslideList[i].intStart, questionslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -221,16 +270,46 @@ class QuestionDataAnalysis {
                 span.setSpan(boldSpan, questionslideList[i].intStart, questionslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 크기
-                val sizeBigSpan = RelativeSizeSpan(1.2f)
+                val sizeBigSpan = RelativeSizeSpan(1f)
                 span.setSpan(sizeBigSpan, questionslideList[i].intStart, questionslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 // 색상
                 val colorBlueSpan = ForegroundColorSpan(Color.BLUE)
                 span.setSpan(colorBlueSpan, questionslideList[i].intStart, questionslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
+            } else if (questionslideList[i].intStyle==2) {
+                // 볼드
+                val boldSpan = StyleSpan(Typeface.BOLD)
+                span.setSpan(boldSpan, questionslideList[i].intStart, questionslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                // 크기
+                val sizeBigSpan = RelativeSizeSpan(1.0f)
+                span.setSpan(sizeBigSpan, questionslideList[i].intStart, questionslideList[i].intEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                if (questionslideList[i].isCorrect) {
+                    // 색상
+                    val colorBlueSpan = ForegroundColorSpan(Color.BLUE)
+                    span.setSpan(
+                        colorBlueSpan,
+                        questionslideList[i].intStart,
+                        questionslideList[i].intEnd,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                } else {
+                    // 색상
+                    val colorBlueSpan = ForegroundColorSpan(Color.RED)
+                    span.setSpan(
+                        colorBlueSpan,
+                        questionslideList[i].intStart,
+                        questionslideList[i].intEnd,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
             }
         }
         // 분해된 내용을 재조합함  -------------<<<<<<<<
+
+
     }
 
     // 현재까지 분해한것을 조합했을경우 길이를 리턴함

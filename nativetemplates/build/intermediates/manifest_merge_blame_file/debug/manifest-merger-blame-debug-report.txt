@@ -4,13 +4,13 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="16"
-6-->F:\GoogleDrive_codingguide\KotlinProject\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml
+6-->C:\Users\a\GoogleDrive_codingguide22\KotlinProject_home-hyeon\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml
 7        android:targetSdkVersion="30" />
-7-->F:\GoogleDrive_codingguide\KotlinProject\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml
+7-->C:\Users\a\GoogleDrive_codingguide22\KotlinProject_home-hyeon\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml
 8
 9    <application android:supportsRtl="true" >
-9-->F:\GoogleDrive_codingguide\KotlinProject\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml:3:3-5:17
-9-->F:\GoogleDrive_codingguide\KotlinProject\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml:3:16-42
+9-->C:\Users\a\GoogleDrive_codingguide22\KotlinProject_home-hyeon\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml:3:3-5:17
+9-->C:\Users\a\GoogleDrive_codingguide22\KotlinProject_home-hyeon\KoreanHistoryNote\nativetemplates\src\main\AndroidManifest.xml:3:16-42
 10    </application>
 11
 12</manifest>

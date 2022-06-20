@@ -35,6 +35,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        // EntraneActivity 실행
+        if (savedInstanceState != null) {
+            // 회전시 초기화되는 내용을 처리하기위해 사용
+
+        } else {
+            // 첫 실행일 경우만 실행
+            val intent = Intent(this, EntraneActivity::class.java)
+            intent.putExtra("curPos", 1)
+            startActivity(intent)
+        }
+                
         setContentView(binding.root)
 
         setBannerAds()
@@ -69,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         */
 
 
+        // Recycler View 실행
         binding.rvTitlename.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvTitlename.setHasFixedSize(true)
@@ -76,15 +89,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvTitlename.adapter = TitleNameAdapter(contentdataList)
 
 
-        if (savedInstanceState != null) {
-            // 회전시 초기화되는 내용을 처리하기위해 사용
 
-        } else {
-            // 첫 실행일 경우만 실행
-            val intent = Intent(this, EntraneActivity::class.java)
-            intent.putExtra("curPos", 1)
-            startActivity(intent)
-        }
     }
 
 
